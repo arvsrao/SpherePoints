@@ -13,7 +13,8 @@ SpherePoints< N >::SpherePoints()
     numType azimuth, elevation, prob;
     
     //uniformly seed the sphere with points
-    std::default_random_engine generator;
+    std::random_device rd;
+    std::default_random_engine generator( rd() );
     std::uniform_real_distribution< numType > distribution_azimuth(0, 2 * M_PI);
     std::uniform_real_distribution< numType > distribution_elevation( 0, 1);
     

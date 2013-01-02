@@ -8,9 +8,9 @@
 #include <array>
 #include "spherepoints.h"
 
-int main()
+int main(int argc, char ** argv)
 {
-    SpherePoints<15> x;
+    SpherePoints< 20 > x;
     x.print_points();
 //    typedef double  numType;
 //    const int VEC_LENGTH = 3;
