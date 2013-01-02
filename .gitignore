@@ -1,0 +1,5 @@
+*.pyc
+*~
+*.cfg
+.DS_Store
+*xcodeproj*
