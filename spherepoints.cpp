@@ -7,8 +7,8 @@
 
     
 //default Constructor
-template< int N >
-SpherePoints< N >::SpherePoints()
+
+SpherePoints::SpherePoints(int N = 10)
 {
     numType azimuth, elevation, prob;
     
@@ -26,20 +26,18 @@ SpherePoints< N >::SpherePoints()
         elevation = acos(1 - 2*prob);
         d_point x;
         coords(x, azimuth, elevation);
-        points[i] = x;
+        points.push_back( x );
     }
 }
 
 //default deconstructor
-template< int N >
-SpherePoints<N>::~SpherePoints(){}
+SpherePoints::~SpherePoints(){}
 
-template< int N >
-void SpherePoints<N>::print_points()
+void SpherePoints::print_points()
 {
-    for( int i=0; i < N; i++)
+    for( d_point &x : points)
     {
-        std::cout<< points[i][0] << ", " << points[i][1] << ", " << points[i][2] << "\n";
+        std::cout<< "[ " << x[0] << ", " << x[1] << ", " << x[2] << " ],\n";
     }
 }
 
@@ -51,8 +49,7 @@ void SpherePoints<N>::print_points()
  *
  */
 
-template< int N >
-void SpherePoints< N >::coords( d_point &point, numType phi, numType theta)
+void SpherePoints::coords( d_point &point, numType phi, numType theta)
 {
     d_point apoint = { cos(phi) * sin(theta), sin(phi) * sin(theta), cos(theta)};
     point = apoint;

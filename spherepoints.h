@@ -16,7 +16,6 @@
 #include <random>
 #include <cmath>
 
-template< int N = 10 >
 class SpherePoints
 {
 private:
@@ -24,7 +23,7 @@ private:
     enum { VEC_LENGTH = 3 };
     typedef double                                    numType;
     typedef std::array< numType, VEC_LENGTH>          d_point;
-    std::array<d_point, N>                             points;
+    std::vector<d_point>                                points;
     
     /*
      * Convert spherical coordinates into euclidean coordinates
@@ -38,12 +37,10 @@ private:
 public:
     
     //default Constructor
-    SpherePoints();
+    SpherePoints(int N);
     
     //default deconstructor
     ~SpherePoints();
-    
-    void print(){ std::cout<< "yo!!";}
     
     void print_points();
 };

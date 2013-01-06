@@ -10,7 +10,8 @@
 
 int main(int argc, char ** argv)
 {
-    SpherePoints< 20 > x;
+    const int n = std::atoi( argv[1] );
+    SpherePoints x(n);
     x.print_points();
 //    typedef double  numType;
 //    const int VEC_LENGTH = 3;
