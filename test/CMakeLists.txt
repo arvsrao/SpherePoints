@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/)
+
 
 #macro(add_python_target tgt)
 #  foreach(file ${ARGN})

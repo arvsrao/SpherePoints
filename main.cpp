@@ -5,7 +5,6 @@
 //  Created by Arvind Rao on 12/30/12.
 
 #include <iostream>
-#include <array>
 #include "spherepoints.h"
 #include "sphere_vector.h"
 

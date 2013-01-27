@@ -61,17 +61,17 @@ s_point SpherePoints::coords( numType phi, numType theta)
  *
  *
  */
-s_point SpherePoints::energy(s_point &p, s_point &q)
-{
-    numType theta = p - q;
-    
-    numType norm_diff = 0;
-    for(int i = 0; i < VEC_LENGTH; i++)
-    {
-        
-    }
-
-    for(int i = 0; i < VEC_LENGTH; i++) diff[i] /= norm_diff;
-    
-    return diff;
-}
+//s_point SpherePoints::energy(s_point &p, s_point &q)
+//{
+//    numType theta = p - q;
+//    
+//    numType norm_diff = 0;
+//    for(int i = 0; i < VEC_LENGTH; i++)
+//   {
+//        
+//    }
+//
+//    for(int i = 0; i < VEC_LENGTH; i++) diff[i] /= norm_diff;
+//    
+//    return diff;
+//}
