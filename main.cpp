@@ -7,6 +7,7 @@
 #include <iostream>
 #include <array>
 #include "spherepoints.h"
+#include "sphere_vector.h"
 
 int main(int argc, char ** argv)
 {
@@ -21,7 +22,7 @@ int main(int argc, char ** argv)
     n = std::atoi( argv[1] );
     SpherePoints x(n);
     x.print_points();
-    
+
     return 0;
 }
 

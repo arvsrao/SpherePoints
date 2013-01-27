@@ -1,7 +1,7 @@
 /*
  *  spherepoints.h is a class that seeds S^2 with N uniformly
  *  distributed points. Addtionally functionality is provided,
- *  such as flowing the points.
+ *  such as flowing these points so they are equidistant. 
  *
  *  Copyright @2012 Arvind S. Rao
  *  License: GNU
@@ -11,19 +11,30 @@
 #define SPHEREPOINTS_
 #define _USE_MATH_DEFINES
 
-#include <iostream>
-#include <array>
+#include "sphere_vector.h"
 #include <random>
 #include <cmath>
 
 class SpherePoints
 {
+
+public:
+    typedef double                                       numType;
+    typedef sphere_vector< numType >                     s_point;
+    
+    //default Constructor
+    SpherePoints(int _n = 10);
+    
+    //default deconstructor
+    ~SpherePoints();
+    
+    void print_points();
+
 private:
     
+	const int N;
     enum { VEC_LENGTH = 3 };
-    typedef double                                    numType;
-    typedef std::array< numType, VEC_LENGTH>          d_point;
-    std::vector<d_point>                                points;
+    std::vector<s_point>                                  points;
     
     /*
      * Convert spherical coordinates into euclidean coordinates
@@ -32,17 +43,7 @@ private:
      * theta = elevation angle
      */
     
-    void coords(d_point &point, numType phi, numType theta);
-    
-public:
-    
-    //default Constructor
-    SpherePoints(int N);
-    
-    //default deconstructor
-    ~SpherePoints();
-    
-    void print_points();
+    sphere_vector<numType> coords( numType phi, numType theta);
 };
 
 #include "spherepoints.cpp"

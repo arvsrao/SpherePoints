@@ -32,8 +32,6 @@ def main():
     reader = csv.reader(open('points.txt', 'rb'))
     a = np.array( [ [float(col) for col in row ] for row in reader ] )
     
-    print a
-    
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter( a[:,0], a[:,1], a[:,2], c='r')

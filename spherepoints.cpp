@@ -5,10 +5,13 @@
  *
  */
 
-    
+typedef SpherePoints::s_point                 s_point;
+typedef SpherePoints::numType                 numType;
+
+
 //default Constructor
 
-SpherePoints::SpherePoints(int N = 10)
+SpherePoints::SpherePoints(int _n) : N(_n)
 {
     numType azimuth, elevation, prob;
     
@@ -24,8 +27,7 @@ SpherePoints::SpherePoints(int N = 10)
         prob = distribution_elevation( generator );
         
         elevation = acos(1 - 2*prob);
-        d_point x;
-        coords(x, azimuth, elevation);
+        s_point x = coords(azimuth, elevation);
         points.push_back( x );
     }
 }
@@ -35,7 +37,7 @@ SpherePoints::~SpherePoints(){}
 
 void SpherePoints::print_points()
 {
-    for( d_point &x : points)
+    for( s_point &x : points)
     {
         std::cout<< x[0] << ", " << x[1] << ", " << x[2] << "\n";
     }
@@ -49,8 +51,27 @@ void SpherePoints::print_points()
  *
  */
 
-void SpherePoints::coords( d_point &point, numType phi, numType theta)
+s_point SpherePoints::coords( numType phi, numType theta)
 {
-    d_point apoint = { cos(phi) * sin(theta), sin(phi) * sin(theta), cos(theta)};
-    point = apoint;
+    return sphere_vector<numType>(cos(phi) * sin(theta), sin(phi) * sin(theta), cos(theta));
+}
+
+/*
+ * Returns the Coulumb Energy acting on a single point.
+ *
+ *
+ */
+s_point SpherePoints::energy(s_point &p, s_point &q)
+{
+    numType theta = p - q;
+    
+    numType norm_diff = 0;
+    for(int i = 0; i < VEC_LENGTH; i++)
+    {
+        
+    }
+
+    for(int i = 0; i < VEC_LENGTH; i++) diff[i] /= norm_diff;
+    
+    return diff;
 }
