@@ -25,10 +25,46 @@ void dot_product_test( sphere_vector<double> &x, sphere_vector<double> &y, doubl
 void distance_test( sphere_vector<double> &x, sphere_vector<double> &y, double expected)
 {
 	
-	if( std::abs((x - y) - expected) < tolerance)
+	if( (std::abs( x.dist(y) ) - expected) < tolerance)
 		std::cout<< "geodesic distance test PASSED\n";
 	else
 		std::cout<< "geodesic distance test FAILED \n";
+}
+
+void subtract_test( sphere_vector<double> &x, sphere_vector<double> &y, sphere_vector<double> &expected)
+{
+	bool result = true;
+    
+    sphere_vector<double> sum = x-y;
+    
+    for( int i =0; i <3 ; i++ )
+    {
+        if( std::abs(sum[i] - expected[i]) > tolerance)
+            result = false;
+    }
+    
+	if(result)
+		std::cout<< "Vector Subtraction test PASSED\n";
+	else
+		std::cout<< "Vector Subtraction test FAILED \n";
+}
+
+void add_test( sphere_vector<double> &x, sphere_vector<double> &y, sphere_vector<double> &expected)
+{
+	bool result = true;
+    
+    sphere_vector<double> sum = x+y;
+    
+    for( int i =0; i <3 ; i++ )
+    {
+        if( std::abs(sum[i] - expected[i]) > tolerance)
+            result = false;
+    }
+    
+	if(result)
+		std::cout<< "Vector Addition test PASSED\n";
+	else
+		std::cout<< "Vector Addition test FAILED \n";
 }
 
 void array_index_test( sphere_vector<double> &x)
@@ -87,6 +123,8 @@ int main()
     
     sphere_vector<double> first(0.983319, 0.0686227, 0.168447);
     sphere_vector<double> second(0.253845, -0.634348, 0.730182);
+    sphere_vector<double> sum(1.237164 , -0.5657253,  0.898629);
+    sphere_vector<double> diff(0.729474 ,  0.7029707, -0.561735);
     
 	dot_product_test(first, second, 0.329077);
     
@@ -94,6 +132,9 @@ int main()
 	array_index_test(second);
     
     distance_test(first, second, 1.2354703587330047);
-
+    
+    add_test(first, second, sum );
+    subtract_test(first, second, diff );
+    
 	return 0;
 }

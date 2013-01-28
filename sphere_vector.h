@@ -16,25 +16,31 @@
 template< typename TNumType>
 class sphere_vector
 {
-    
-private:
-    typedef TNumType numType;
-    TNumType x, y, z;
 
 public:
 
+    typedef TNumType numType; // just make header file easier to read. Scope is
+                              // local.
+    
     sphere_vector(numType _x = 0, numType _y = 0, numType _z = 0);
     ~sphere_vector();
     
-    TNumType get_x() const;
-    TNumType get_y() const;
-    TNumType get_z() const;
+    numType get_x() const;
+    numType get_y() const;
+    numType get_z() const;
     
-    TNumType operator-(const sphere_vector &vec) const;
-    TNumType operator*(const sphere_vector &vec) const;
-    TNumType operator[](const int index) const;
+    sphere_vector<TNumType> operator-(const sphere_vector &vec) const;
+    sphere_vector<TNumType> operator+(const sphere_vector &vec) const;
+    numType operator*(const sphere_vector &vec) const;
+    sphere_vector<TNumType> operator=(const sphere_vector &vec) const;
+    
+    numType dist( const sphere_vector& x ) const;
+    numType operator[](const int index) const;
     
     void print();
+    
+private:
+    numType x, y, z;
 };
 
 #include "sphere_vector.cpp"

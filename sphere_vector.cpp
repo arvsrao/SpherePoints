@@ -43,6 +43,29 @@ TNumType sphere_vector<TNumType>::operator*(const sphere_vector& vec ) const
     return this->x * vec.get_x() + this->y * vec.get_y() + this->z * vec.get_z();
 }
 
+template< typename TNumType>
+sphere_vector<TNumType> sphere_vector<TNumType>::operator+(const sphere_vector& vec ) const
+{
+    return sphere_vector<TNumType>(this->x + vec.get_x(), this->y + vec.get_y(), this->z + vec.get_z());
+}
+
+template< typename TNumType>
+sphere_vector<TNumType> sphere_vector<TNumType>::operator-(const sphere_vector& vec ) const
+{
+    return sphere_vector<TNumType>(this->x - vec.get_x(), this->y - vec.get_y(), this->z - vec.get_z());
+}
+
+template< typename TNumType>
+sphere_vector<TNumType> sphere_vector<TNumType>::operator=(const sphere_vector& vec ) const
+{
+    for(int i = 0; i < 3; i++)
+    {
+        *this[i] = vec[i];
+    }
+    return this;
+}
+
+
 /*
  * Overloading of [] operator. Gives sphere_vector
  * array indexing functionality:  
@@ -69,13 +92,13 @@ TNumType sphere_vector<TNumType>::operator[](const int index) const
 }
 
 template< class TNumType>
-TNumType sphere_vector<TNumType>::operator-( const sphere_vector& vec) const
+TNumType sphere_vector<TNumType>::dist( const sphere_vector& x ) const
 {
-    return acos( *this * vec );
+    return acos( *this * x );
 }
 
 template< class TNumType>
 void sphere_vector<TNumType>::print()
 {
-    std::cout<< " x value: " << x << " y value: " << z << " x value: " << z << "\n";
+    std::cout<< " x value: " << x << ", y value: " << z << ", x value: " << z << "\n";
 }
