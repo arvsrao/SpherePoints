@@ -22,49 +22,87 @@ sphere_vector<TNumType>::~sphere_vector(){}
 template< typename TNumType>
 TNumType sphere_vector<TNumType>::get_x() const
 {
-    return x;
+    return this->x;
 }
 
 template< typename TNumType>
 TNumType sphere_vector<TNumType>::get_y() const
 {
-    return y;
+    return this->y;
 }
 
 template< typename TNumType>
 TNumType sphere_vector<TNumType>::get_z() const
 {
-    return z;
+    return this->z;
 }
 
 template< typename TNumType>
-TNumType sphere_vector<TNumType>::operator*(const sphere_vector& vec ) const
+void sphere_vector<TNumType>::set( int index, const TNumType &x)
+{
+    this->operator[](index) = x;
+}
+
+template< typename TNumType>
+TNumType sphere_vector<TNumType>::operator*(const sphere_vector<TNumType>& vec ) const
 {
     return this->x * vec.get_x() + this->y * vec.get_y() + this->z * vec.get_z();
 }
 
 template< typename TNumType>
-sphere_vector<TNumType> sphere_vector<TNumType>::operator+(const sphere_vector& vec ) const
+sphere_vector<TNumType> sphere_vector<TNumType>::operator+( const sphere_vector<TNumType>& vec ) const
 {
     return sphere_vector<TNumType>(this->x + vec.get_x(), this->y + vec.get_y(), this->z + vec.get_z());
 }
 
 template< typename TNumType>
-sphere_vector<TNumType> sphere_vector<TNumType>::operator-(const sphere_vector& vec ) const
+sphere_vector<TNumType> sphere_vector<TNumType>::operator-(const sphere_vector<TNumType>& vec ) const
 {
     return sphere_vector<TNumType>(this->x - vec.get_x(), this->y - vec.get_y(), this->z - vec.get_z());
 }
 
+
+/*
+ * EQUALS operator
+ *
+ */
 template< typename TNumType>
-sphere_vector<TNumType> sphere_vector<TNumType>::operator=(const sphere_vector& vec ) const
+void sphere_vector<TNumType>::operator=( sphere_vector<TNumType> vec )
 {
-    for(int i = 0; i < 3; i++)
+
+    for(int i = 0; i < VEC_LENGTH; i++)
     {
-        *this[i] = vec[i];
+        this->operator[](i) = vec[i];
     }
-    return this;
 }
 
+/*
+ *  "+=" operator
+ *
+ */
+template< typename TNumType>
+void sphere_vector<TNumType>::operator+=( sphere_vector<TNumType> vec )
+{
+    
+    for(int i = 0; i < VEC_LENGTH; i++)
+    {
+        this->operator[](i) = this->operator[](i) + vec[i];
+    }
+}
+
+/*
+ *  "-=" operator
+ *
+ */
+template< typename TNumType>
+void sphere_vector<TNumType>::operator-=( sphere_vector<TNumType> vec )
+{
+    
+    for(int i = 0; i < VEC_LENGTH; i++)
+    {
+        this->operator[](i) = this->operator[](i) - vec[i];
+    }
+}
 
 /*
  * Overloading of [] operator. Gives sphere_vector
@@ -76,7 +114,7 @@ sphere_vector<TNumType> sphere_vector<TNumType>::operator=(const sphere_vector& 
  *
  */
 template< typename TNumType>
-TNumType sphere_vector<TNumType>::operator[](const int index) const
+TNumType& sphere_vector<TNumType>::operator[]( int index)
 {
     switch (index)
     {
@@ -91,14 +129,50 @@ TNumType sphere_vector<TNumType>::operator[](const int index) const
     }
 }
 
-template< class TNumType>
-TNumType sphere_vector<TNumType>::dist( const sphere_vector& x ) const
+template< typename TNumType>
+TNumType sphere_vector<TNumType>::dist( const sphere_vector<TNumType>& x ) const
 {
     return acos( *this * x );
+}
+
+template<typename TNumType>
+sphere_vector<TNumType> sphere_vector<TNumType>::x_theta()
+{
+    numType theta, phi;
+    phi = atan2(this->y , this->x);
+    theta = acos(this->z);
+    
+    return sphere_vector<TNumType>(cos(theta) * cos(phi), cos(theta) * sin(phi), -sin(theta));
+}
+
+template<typename TNumType>
+sphere_vector<TNumType> sphere_vector<TNumType>::x_phi()
+{
+    numType theta, phi;
+    phi = atan2(this->y , this->x);
+    theta = acos(this->z);
+    
+    return sphere_vector<TNumType>( -sin(theta) * sin(phi), sin(theta) * cos(phi), 0);
+}
+
+/**
+ *  Multiplication by a scalar
+ *
+ */
+template<typename TNumType>
+sphere_vector<TNumType> sphere_vector<TNumType>::operator*(const TNumType a) const
+{
+    return sphere_vector<TNumType>(a * this->x, a * this->y, a * this->z);
+}
+
+template< typename TNumType>
+bool sphere_vector<TNumType>::operator==(const sphere_vector<TNumType>& vec) const
+{
+    return (this->x == vec.get_x()) && (this->y == vec.get_y()) && (this->z == vec.get_z());
 }
 
 template< class TNumType>
 void sphere_vector<TNumType>::print()
 {
-    std::cout<< " x value: " << x << ", y value: " << z << ", x value: " << z << "\n";
+    std::cout<< " x value: " << x << ", y value: " << y << ", x value: " << z << "\n";
 }

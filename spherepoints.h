@@ -14,6 +14,7 @@
 #include "sphere_vector.h"
 #include <random>
 #include <cmath>
+#include <list>
 
 class SpherePoints
 {
@@ -29,12 +30,16 @@ public:
     ~SpherePoints();
     
     void print_points();
+    void test_dprod();
+    void gradient_descent(short int num_iterations);
 
 private:
     
 	const int N;
     enum { VEC_LENGTH = 3 };
-    std::vector<s_point>                                  points;
+    
+    // points are stored in a linked list
+    std::list<s_point>                                  points;
     
     /*
      * Convert spherical coordinates into euclidean coordinates
@@ -44,6 +49,24 @@ private:
      */
     
     sphere_vector<numType> coords( numType phi, numType theta);
+
+
+    /*
+     * Compute Couloumb Energy imparted on a point by another point.
+     *
+     */
+    numType energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q);
+    
+    /* counter-clockwise motion in the direction of the tangent.
+     *  spherical geodesics are great circles. So, the exponential map is curve along the
+     *  great circle which is the intersection of the sphere with the plane determined by
+     *  the tangent vector and the point.
+     *
+     */
+    sphere_vector<numType> exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType& time_step);
+
+    sphere_vector<numType>& grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& temp);
+    
 };
 
 #include "spherepoints.cpp"

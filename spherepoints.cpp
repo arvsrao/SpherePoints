@@ -39,7 +39,7 @@ void SpherePoints::print_points()
 {
     for( s_point &x : points)
     {
-        std::cout<< x[0] << ", " << x[1] << ", " << x[2] << "\n";
+        std::cout<< "[" << x[0] << ", " << x[1] << ", " << x[2] << "],`\n";
     }
 }
 
@@ -59,19 +59,65 @@ s_point SpherePoints::coords( numType phi, numType theta)
 /*
  * Returns the Coulumb Energy acting on a single point.
  *
+ */
+numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q)
+{
+    return numType(2) / (p.dist(q) * p.dist(q));
+}
+
+/*
+ * Compute the 3D gradient of the dot product function ( p |--> p * q )
+ * so that the result lines in the tangent plane of p \in S^2
+ *
+ * Once computed, use to further compute the gradient of the distance function at 
+ * point p; necessary will be in the direction of q.
  *
  */
-//s_point SpherePoints::energy(s_point &p, s_point &q)
-//{
-//    numType theta = p - q;
-//    
-//    numType norm_diff = 0;
-//    for(int i = 0; i < VEC_LENGTH; i++)
-//   {
-//        
-//    }
-//
-//    for(int i = 0; i < VEC_LENGTH; i++) diff[i] /= norm_diff;
-//    
-//    return diff;
-//}
+sphere_vector<numType>& SpherePoints::grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& grad)
+{
+    sphere_vector<numType> x_theta = p.x_theta();
+    sphere_vector<numType> x_phi = p.x_phi();
+    
+    grad =  (x_theta * numType(x_theta * q) + x_phi * numType(q * x_phi)) * (1 / sqrt(1 - (p*q) * (p*q) ) );
+    
+    return grad;
+}
+
+/* counter-clockwise motion in the direction of the tangent.
+ *  spherical geodesics are great circles. So, the exponential map is curve along the
+ *  great circle which is the intersection of the sphere with the plane determined by
+ *  the tangent vector and the point.
+ *
+ */
+sphere_vector<numType> SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType& time_step)
+{
+    return point * cos(time_step) + tangent * sin(time_step);
+}
+
+void SpherePoints::gradient_descent(short int num_iterations)
+{
+    sphere_vector<numType> dir, p, temp;
+    numType delta = 0.01;
+    
+    while( num_iterations > 0)
+    {
+        p = points.front();
+        points.pop_front();
+        dir[0]=0;
+        dir[1]=0;
+        dir[2]=0;
+        
+        for(auto &x : points)
+        {
+            grad_dist(x, p, temp);
+            dir -= temp * energy(x,p);
+        }
+        
+        points.push_back( exp_map(dir,p,delta) );
+        num_iterations--;
+    }
+    
+}
+
+
+

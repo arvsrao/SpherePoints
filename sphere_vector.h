@@ -29,18 +29,33 @@ public:
     numType get_y() const;
     numType get_z() const;
     
-    sphere_vector<TNumType> operator-(const sphere_vector &vec) const;
-    sphere_vector<TNumType> operator+(const sphere_vector &vec) const;
-    numType operator*(const sphere_vector &vec) const;
-    sphere_vector<TNumType> operator=(const sphere_vector &vec) const;
+    sphere_vector<TNumType> operator-(const sphere_vector<TNumType> &vec) const;
+    sphere_vector<TNumType> operator+(const sphere_vector<TNumType> &vec) const;
     
-    numType dist( const sphere_vector& x ) const;
-    numType operator[](const int index) const;
+    TNumType operator*(const sphere_vector &vec) const;
+    sphere_vector<TNumType> operator*(const TNumType a) const;
+    
+    void operator=( sphere_vector<TNumType> vec);
+    void operator+=( sphere_vector<TNumType> vec);
+    void operator-=( sphere_vector<TNumType> vec);
+    
+    TNumType dist( const sphere_vector<TNumType>& x ) const;
+    TNumType& operator[](int index);    //returns reference; returned type can be assigned too.
+    
+    //sphere_vectors know their local frame
+    sphere_vector<TNumType> x_theta();
+    sphere_vector<TNumType> x_phi();
+    
+    //equality
+    bool operator==(const sphere_vector<TNumType>& vec) const;
+    
+    void set( int index, const TNumType &x);
     
     void print();
     
 private:
-    numType x, y, z;
+    TNumType x, y, z;
+    enum { VEC_LENGTH = 3 };
 };
 
 #include "sphere_vector.cpp"
