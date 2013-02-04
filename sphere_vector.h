@@ -34,6 +34,7 @@ public:
     
     TNumType operator*(const sphere_vector &vec) const;
     sphere_vector<TNumType> operator*(const TNumType a) const;
+    void normalize();
     
     void operator=( sphere_vector<TNumType> vec);
     void operator+=( sphere_vector<TNumType> vec);

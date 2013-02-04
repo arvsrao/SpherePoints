@@ -39,7 +39,8 @@ void SpherePoints::print_points()
 {
     for( s_point &x : points)
     {
-        std::cout<< "[" << x[0] << ", " << x[1] << ", " << x[2] << "],`\n";
+       // std::cout<< "[" << x[0] << ", " << x[1] << ", " << x[2] << "],\n";
+        std::cout<< x[0] << ", " << x[1] << ", " << x[2] << "\n";
     }
 }
 
@@ -112,7 +113,7 @@ void SpherePoints::gradient_descent(short int num_iterations)
             grad_dist(x, p, temp);
             dir -= temp * energy(x,p);
         }
-        
+        dir.normalize();
         points.push_back( exp_map(dir,p,delta) );
         num_iterations--;
     }
