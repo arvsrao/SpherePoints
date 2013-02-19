@@ -32,8 +32,17 @@ public:
     sphere_vector<TNumType> operator-(const sphere_vector<TNumType> &vec) const;
     sphere_vector<TNumType> operator+(const sphere_vector<TNumType> &vec) const;
     
-    TNumType operator*(const sphere_vector &vec) const;
+    TNumType operator*(const sphere_vector<TNumType> &vec) const;
     sphere_vector<TNumType> operator*(const TNumType a) const;
+    
+    /*  non-member friend of sphere_vector class
+     *  Making New Friends oidiom
+     */
+    friend sphere_vector<TNumType> operator*(const TNumType a, const sphere_vector<TNumType> &vec)
+    {
+        return sphere_vector<TNumType>(a * vec.x, a * vec.y, a * vec.z);
+    }
+    
     void normalize();
     
     void operator=( sphere_vector<TNumType> vec);

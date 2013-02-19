@@ -146,6 +146,30 @@ void compound_operations()
 
 /**
  *
+ *  scalar multiplication.
+ *
+ *
+ */
+void scalar_mult_test()
+{
+    
+    sphere_vector<double> first(0.983319, 0.0686227, 0.168447);
+    sphere_vector<double> answer(2.3599656 ,  0.16469448,  0.4042728);
+    sphere_vector<double> temp_one, temp_two;
+    bool result = true;
+    
+    temp_one = 2.4 * first;
+    temp_two = first * 2.4;
+    
+    if( temp_one == temp_two )
+		std::cout<< "scalar multiplication test PASS\n";
+	else
+		std::cout<< "scalar multiplication test FAIL\n";
+    
+}
+
+/**
+ *
  *  Plus Equals Test
  *
  *
@@ -158,8 +182,8 @@ void plus_equals_test()
     sphere_vector<double> sum(1.237164 , -0.5657253,  0.898629);
     bool result = true;
     
-    first += second * 2.4;
-    first.print();
+    first += second;
+
     if( (first[0] - sum[0]) > tolerance)
 		result = false;
 	if( (first[1] - sum[1]) > tolerance)
@@ -188,8 +212,7 @@ void minus_equals_test()
     sphere_vector<double> diff(0.729474 ,  0.7029707, -0.561735);
     bool result = true;
     
-    first -= (second * 2.4);
-    first.print();
+    first -= second;
     
     if( std::abs(first[0] - diff[0]) > tolerance )
 		result = false;
@@ -222,7 +245,6 @@ int main()
 	array_index_test(first);
 	array_index_test(second);
     
-    
     distance_test(first, second, 1.2354703587330047);
     
     add_test(first, second, sum );
@@ -230,6 +252,7 @@ int main()
     compound_operations();
     plus_equals_test();
     minus_equals_test();
+    scalar_mult_test();
     
     sphere_vector<double> temp;
     first.print();

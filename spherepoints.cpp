@@ -85,7 +85,7 @@ sphere_vector<numType>& SpherePoints::grad_dist( sphere_vector<numType>& p, sphe
 }
 
 /* counter-clockwise motion in the direction of the tangent.
- *  spherical geodesics are great circles. So, the exponential map is curve along the
+ *  spherical geodesics are great circles. So, the exponential map is a curve along the
  *  great circle which is the intersection of the sphere with the plane determined by
  *  the tangent vector and the point.
  *
@@ -110,8 +110,11 @@ void SpherePoints::gradient_descent(short int num_iterations)
         
         for(auto &x : points)
         {
-            grad_dist(x, p, temp);
+            temp =  grad_dist(x, p, temp);
             dir -= temp * energy(x,p);
+            temp[0]=0;
+            temp[1]=0;
+            temp[2]=0;
         }
         dir.normalize();
         points.push_back( exp_map(dir,p,delta) );
