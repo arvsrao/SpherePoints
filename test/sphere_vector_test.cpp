@@ -228,6 +228,35 @@ void minus_equals_test()
     
 }
 
+
+/*
+ *
+ *
+ *
+ */
+void vec_normalization_test()
+{
+    sphere_vector<double> first(3, 2, 1);
+    sphere_vector<double> answer( 0.80178373,  0.53452248,  0.26726124 );
+    first.normalize();
+    
+    first.print();
+    
+    bool result = true;
+    
+    if( std::abs(first[0] - answer[0]) > tolerance )
+		result = false;
+	if( std::abs(first[1] - answer[1]) > tolerance )
+        result = false;
+	if( std::abs(first[2] - answer[2]) > tolerance )
+        result = false;
+    
+    if(result)
+		std::cout<< "normalize GIVES THE CORRECT VECTOR\n";
+	else
+		std::cout<< "normalize GIVES THE WRONG VECTOR\n";
+}
+
 int main()
 {
     initialization_test();
@@ -265,7 +294,7 @@ int main()
     if (!(first == sum))
         std::cout<< " first and second are not equal\n";
     
-    
+    vec_normalization_test();
     
 	return 0;
 }

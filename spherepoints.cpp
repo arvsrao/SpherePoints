@@ -61,9 +61,9 @@ s_point SpherePoints::coords( numType phi, numType theta)
  * Returns the Coulumb Energy acting on a single point.
  *
  */
-numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q)
+numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q, const numType theta)
 {
-    return numType(2) / (p.dist(q) * p.dist(q));
+    return numType(2) / (theta * theta);
 }
 
 /*
@@ -90,38 +90,55 @@ sphere_vector<numType>& SpherePoints::grad_dist( sphere_vector<numType>& p, sphe
  *  the tangent vector and the point.
  *
  */
-sphere_vector<numType> SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType& time_step)
+sphere_vector<numType> SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType time_step)
 {
-    return point * cos(time_step) + tangent * sin(time_step);
+    return (point * cos(time_step)) + (tangent * sin(time_step));
 }
 
 void SpherePoints::gradient_descent(short int num_iterations)
 {
     sphere_vector<numType> dir, p, temp;
     numType delta = 0.01;
+    numType theta;
+       
+    std::vector<s_point> stack_next;
+    std::vector<s_point> stack_current = points;
+    std::vector<s_point> stack_temp = points;
     
     while( num_iterations > 0)
     {
-        p = points.front();
-        points.pop_front();
-        dir[0]=0;
-        dir[1]=0;
-        dir[2]=0;
-        
-        for(auto &x : points)
+        while( !stack_temp.empty() )
         {
-            temp =  grad_dist(x, p, temp);
-            dir -= temp * energy(x,p);
-            temp[0]=0;
-            temp[1]=0;
-            temp[2]=0;
+            p = stack_temp.front();
+            stack_temp.erase( stack_temp.begin() );
+            dir[0]=0;
+            dir[1]=0;
+            dir[2]=0;
+            
+            for(auto &x : stack_current)
+            {
+                if( x != p )
+                {
+                    temp = grad_dist(x, p, temp);
+                    theta = p.dist(x);
+                    dir -= temp * ( energy(x,p, theta) - energy(x, p, 2*M_PI - theta) );
+                    theta = 0;
+                }
+                
+                temp[0]=0;
+                temp[1]=0;
+                temp[2]=0;
+                theta = 0;
+            }
+            
+            dir.normalize();
+            stack_next.push_back( exp_map(dir,p,delta) );
         }
-        dir.normalize();
-        points.push_back( exp_map(dir,p,delta) );
         num_iterations--;
+        stack_current = stack_next;
+        stack_temp = stack_next;
+        stack_next.clear();
     }
     
+    points = stack_current;
 }
-
-
-

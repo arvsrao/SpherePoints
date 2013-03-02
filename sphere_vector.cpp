@@ -171,11 +171,17 @@ bool sphere_vector<TNumType>::operator==(const sphere_vector<TNumType>& vec) con
     return (this->x == vec.get_x()) && (this->y == vec.get_y()) && (this->z == vec.get_z());
 }
 
+template< typename TNumType>
+bool sphere_vector<TNumType>::operator!=(const sphere_vector<TNumType>& vec) const
+{
+    return (this->x != vec.get_x()) || (this->y != vec.get_y()) || (this->z != vec.get_z());
+}
+
 template< typename TNumType >
 void sphere_vector<TNumType>::normalize()
 {
     TNumType norm = sqrt( (this->x * this->x) + (this->y * this->y) + (this->z * this->z) );
-    for(int i = 0; i < VEC_LENGTH; i++)
+    for(int i = 0; i < VEC_LENGTH; ++i)
     {
         this->operator[](i) = this->operator[](i) / norm;
     }

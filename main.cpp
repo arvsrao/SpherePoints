@@ -21,7 +21,8 @@ int main(int argc, char ** argv)
     n = std::atoi( argv[1] );
     SpherePoints x(n);
     //x.print_points();
-    x.gradient_descent(1000);
+    
+    x.gradient_descent(100);
     //std::cout<< "The points after 10 iterations of gradient descent.\n\n";
     x.print_points();
     

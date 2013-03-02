@@ -59,6 +59,9 @@ public:
     //equality
     bool operator==(const sphere_vector<TNumType>& vec) const;
     
+    //not equal
+    bool operator!=(const sphere_vector<TNumType>& vec) const;
+    
     void set( int index, const TNumType &x);
     
     void print();

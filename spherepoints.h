@@ -39,7 +39,7 @@ private:
     enum { VEC_LENGTH = 3 };
     
     // points are stored in a linked list
-    std::list<s_point>                                  points;
+    std::vector<s_point>                                  points;
     
     /*
      * Convert spherical coordinates into euclidean coordinates
@@ -55,7 +55,7 @@ private:
      * Compute Couloumb Energy imparted on a point by another point.
      *
      */
-    numType energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q);
+    numType energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q, const numType theta);
     
     /* counter-clockwise motion in the direction of the tangent.
      *  spherical geodesics are great circles. So, the exponential map is curve along the
@@ -63,7 +63,7 @@ private:
      *  the tangent vector and the point.
      *
      */
-    sphere_vector<numType> exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType& time_step);
+    sphere_vector<numType> exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType time_step);
 
     sphere_vector<numType>& grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& temp);
     
