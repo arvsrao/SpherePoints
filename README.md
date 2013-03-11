@@ -1,7 +1,7 @@
 SpherePoints
 ============
 
-![Equidistant Points](https://github.com/arvsrao/SpherePoints/blob/master/images/spherepointsMAPLE.jpg)
+![Equidistant Points](https://github.com/arvsrao/SpherePoints/blob/master/images/spherepointsMAPLE.jpg?raw=true)
 
 
 
