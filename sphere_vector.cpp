@@ -190,5 +190,5 @@ void sphere_vector<TNumType>::normalize()
 template< class TNumType>
 void sphere_vector<TNumType>::print()
 {
-    std::cout<< " x value: " << x << ", y value: " << y << ", x value: " << z << "\n";
+    std::cout<< " x value: " << x << ", y value: " << y << ", z value: " << z << "\n";
 }

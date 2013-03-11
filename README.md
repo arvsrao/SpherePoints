@@ -1,6 +1,10 @@
 SpherePoints
 ============
 
+![Equidistant Points](https://github.com/arvsrao/SpherePoints/blob/master/images/spherepointsMAPLE.jpg)
+
+
+
 Compute N equidistant points on the 2-dimensional sphere.
 
 Requires:

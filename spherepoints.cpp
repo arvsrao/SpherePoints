@@ -1,3 +1,4 @@
+//#define _DEBUG
 /*
  *  spherepoints.cpp is a class that seeds S^2 with N uniformly
  *  distributed points. Addtionally functionality is provided,
@@ -92,12 +93,12 @@ sphere_vector<numType>& SpherePoints::grad_dist( sphere_vector<numType>& p, sphe
  */
 sphere_vector<numType> SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType time_step)
 {
-    return (point * cos(time_step)) + (tangent * sin(time_step));
+    return (cos(time_step) * point) + (sin(time_step) * tangent);
 }
 
 void SpherePoints::gradient_descent(short int num_iterations)
 {
-    sphere_vector<numType> dir, p, temp;
+    sphere_vector<numType> dir, p, temp, b;
     numType delta = 0.01;
     numType theta;
        
@@ -132,12 +133,28 @@ void SpherePoints::gradient_descent(short int num_iterations)
             }
             
             dir.normalize();
-            stack_next.push_back( exp_map(dir,p,delta) );
+            
+            #ifdef _DEBUG
+                std::cout<< "direction to move in:\n ";
+                dir.print();
+                sphere_vector<numType> a= exp_map(dir,p,delta);
+                std::cout<< "the projection of the tangent vector based at p on to S^2, ";
+                a.print();
+                std::cout<< " with norm: " << std::sqrt(a.get_x()*a.get_x() + a.get_y()*a.get_y() + a.get_z()*a.get_z()) <<"\n";
+            #endif
+            
+            b = exp_map(dir,p,delta);
+            b.normalize();
+            stack_next.push_back( b );
         }
         num_iterations--;
         stack_current = stack_next;
         stack_temp = stack_next;
         stack_next.clear();
+        
+        #ifdef _DEBUG
+            std::cout<<"_________________________iteration "<< num_iterations <<" ---------------\n\n";
+        #endif
     }
     
     points = stack_current;
