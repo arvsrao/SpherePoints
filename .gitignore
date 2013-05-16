@@ -2,7 +2,7 @@
 *~
 *.cfg
 .DS_Store
-*xcodeproj*
+*.xcodeproj
 
 # Compiled Object files
 *.slo
