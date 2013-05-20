@@ -75,11 +75,15 @@ numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vect
  * point p; necessary will be in the direction of q.
  *
  */
-sphere_vector<numType>& SpherePoints::grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& grad)
+sphere_vector<numType>& 
+SpherePoints::grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& grad)
 {
     sphere_vector<numType> x_theta = p.x_theta();
     sphere_vector<numType> x_phi = p.x_phi();
-    
+    /*
+	*  Consider using the Riemannain Gradient for spheres
+	*
+	*/
     grad =  (x_theta * numType(x_theta * q) + x_phi * numType(q * x_phi)) * (1 / sqrt(1 - (p*q) * (p*q) ) );
     
     return grad;
@@ -91,7 +95,8 @@ sphere_vector<numType>& SpherePoints::grad_dist( sphere_vector<numType>& p, sphe
  *  the tangent vector and the point.
  *
  */
-sphere_vector<numType> SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType time_step)
+sphere_vector<numType> 
+SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType time_step)
 {
     return (cos(time_step) * point) + (sin(time_step) * tangent);
 }
