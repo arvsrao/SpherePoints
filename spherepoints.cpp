@@ -14,20 +14,23 @@ typedef SpherePoints::numType                 numType;
 
 SpherePoints::SpherePoints(int _n) : N(_n)
 {
-    numType azimuth, elevation, prob;
+    numType prob1, prob2, azimuth, elevation;
     
     //uniformly seed the sphere with points
     std::random_device rd;
     std::default_random_engine generator( rd() );
-    std::uniform_real_distribution< numType > distribution_azimuth(0, 2 * M_PI);
-    std::uniform_real_distribution< numType > distribution_elevation( 0, 1);
+    std::uniform_real_distribution< numType > uniform_distribution(0, 1);
     
     for( int i = 0; i < N ; i++)
     {
-        azimuth = distribution_azimuth( generator );
-        prob = distribution_elevation( generator );
-        
-        elevation = acos(1 - 2*prob);
+		//uniformily generate two values between 0 and 1
+        prob1 = uniform_distribution( generator );
+        prob2 = uniform_distribution( generator );
+		
+		//the equally likely azimuth/elevation pair
+        azimuth = 2 * M_PI * prob1;	
+        elevation = acos(1 - 2*prob2);
+		
         s_point x = coords(azimuth, elevation);
         points.push_back( x );
     }
