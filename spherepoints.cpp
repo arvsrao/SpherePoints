@@ -65,9 +65,10 @@ s_point SpherePoints::coords( numType phi, numType theta)
  * Returns the Coulumb Energy acting on a single point.
  *
  */
-numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q, const numType theta)
+numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q)
 {
-    return numType(2) / (theta * theta);
+    numType theta = p.dist(q);
+	return numType(1) / (theta * theta);
 }
 
 /*
@@ -129,8 +130,7 @@ void SpherePoints::gradient_descent(short int num_iterations)
                 if( x != p )
                 {
                     temp = grad_dist(x, p, temp);
-                    theta = p.dist(x);
-                    dir -= temp * ( energy(x,p, theta) - energy(x, p, 2*M_PI - theta) );
+                    dir -= temp * (energy(x,p) - energy(x, p, 2*M_PI - theta) );
                     theta = 0;
                 }
                 

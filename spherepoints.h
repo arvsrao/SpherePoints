@@ -55,7 +55,7 @@ private:
      * Compute Couloumb Energy imparted on a point by another point.
      *
      */
-    numType energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q, const numType theta);
+    numType energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q);
     
     /* counter-clockwise motion in the direction of the tangent.
      *  spherical geodesics are great circles. So, the exponential map is curve along the
