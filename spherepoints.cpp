@@ -80,7 +80,7 @@ numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vect
  *
  */
 sphere_vector<numType>& 
-SpherePoints::grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& grad)
+SpherePoints::energy_gradient( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& grad)
 {
     sphere_vector<numType> x_theta = p.x_theta();
     sphere_vector<numType> x_phi = p.x_phi();
@@ -88,7 +88,8 @@ SpherePoints::grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, s
 	*  Consider using the Riemannain Gradient for spheres
 	*
 	*/
-    grad =  (x_theta * numType(x_theta * q) + x_phi * numType(q * x_phi)) * (1 / sqrt(1 - (p*q) * (p*q) ) );
+    grad =  2 * pow(energy(p,q), 3/2) * (numType(q*x_theta) * x_theta + numType(q*x_phi) * x_phi) 
+			* (1 / sin(p * q)) );
     
     return grad;
 }
@@ -129,8 +130,8 @@ void SpherePoints::gradient_descent(short int num_iterations)
             {
                 if( x != p )
                 {
-                    temp = grad_dist(x, p, temp);
-                    dir -= temp * (energy(x,p) - energy(x, p, 2*M_PI - theta) );
+                    temp = energy_gradient(x, p, temp);
+                    dir -= temp * (energy(x,p) - energy(x, p) );
                     theta = 0;
                 }
                 
