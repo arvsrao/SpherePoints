@@ -65,7 +65,7 @@ private:
      */
     sphere_vector<numType> exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType time_step);
 
-    sphere_vector<numType>& grad_dist( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& temp);
+    sphere_vector<numType>& energy_gradient( sphere_vector<numType>& p, sphere_vector<numType>& q, sphere_vector<numType>& grad);
     
 };
 

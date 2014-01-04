@@ -33,12 +33,23 @@ def main():
     a = np.array( [ [float(col) for col in row ] for row in reader ] )
     
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter( a[:,0], a[:,1], a[:,2], c='r')
+    ax1 = fig.add_subplot(111, projection='3d')
+    ax1.scatter( a[:,0], a[:,1], a[:,2], c='r')
+        
+    #ax = fig.add_subplot(111, projection='3d')
 
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+    #u = np.linspace(0, 2 * np.pi, 100)
+    #v = np.linspace(0, np.pi, 100)
+
+    #x = np.outer(np.cos(u), np.sin(v))
+    #y = np.outer(np.sin(u), np.sin(v))
+    #z = np.outer(np.ones(np.size(u)), np.cos(v))
+    #ax2 = fig.add_subplot(111, projection='3d')
+    #ax2.plot_surface(x, y, z,  rstride=4, cstride=4, color='b')
+
+    ax1.set_xlabel('X Label')
+    ax1.set_ylabel('Y Label')
+    ax1.set_zlabel('Z Label')
     plt.show()
 
 

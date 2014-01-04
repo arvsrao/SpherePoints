@@ -62,7 +62,7 @@ s_point SpherePoints::coords( numType phi, numType theta)
 }
 
 /*
- * Returns the Coulumb Energy acting on a single point.
+ * Returns the Coulomb Energy acting on a single point.
  *
  */
 numType SpherePoints::energy( const sphere_vector<numType>& p, const sphere_vector<numType>& q)
@@ -88,8 +88,8 @@ SpherePoints::energy_gradient( sphere_vector<numType>& p, sphere_vector<numType>
 	*  Consider using the Riemannain Gradient for spheres
 	*
 	*/
-    grad =  2 * pow(energy(p,q), 3/2) * (numType(q*x_theta) * x_theta + numType(q*x_phi) * x_phi) 
-			* (1 / sin(p * q)) );
+    grad = 2 * pow(energy(p,q), 3/2) * (numType(q*x_theta) * x_theta + numType(q*x_phi) * x_phi)
+			 * (1 / sin(p * q));
     
     return grad;
 }
@@ -101,7 +101,8 @@ SpherePoints::energy_gradient( sphere_vector<numType>& p, sphere_vector<numType>
  *
  */
 sphere_vector<numType> 
-SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point, const numType time_step)
+SpherePoints::exp_map( const sphere_vector<numType> & tangent, const sphere_vector<numType>& point
+						, const numType time_step)
 {
     return (cos(time_step) * point) + (sin(time_step) * tangent);
 }
@@ -128,17 +129,11 @@ void SpherePoints::gradient_descent(short int num_iterations)
             
             for(auto &x : stack_current)
             {
-                if( x != p )
-                {
-                    temp = energy_gradient(x, p, temp);
-                    dir -= temp * (energy(x,p) - energy(x, p) );
-                    theta = 0;
-                }
+                if( x != p ) dir -= energy_gradient(x, p, temp);
                 
                 temp[0]=0;
                 temp[1]=0;
                 temp[2]=0;
-                theta = 0;
             }
             
             dir.normalize();

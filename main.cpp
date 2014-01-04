@@ -22,9 +22,7 @@ int main(int argc, char ** argv)
     SpherePoints x(n);
     //x.print_points();
     
-    x.gradient_descent(200);
+    x.gradient_descent(100);
     //std::cout<< "The points after 10 iterations of gradient descent.\n\n";
     x.print_points();
-    
-    return 0;
 }

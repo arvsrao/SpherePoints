@@ -61,7 +61,6 @@ sphere_vector<TNumType> sphere_vector<TNumType>::operator-(const sphere_vector<T
     return sphere_vector<TNumType>(this->x - vec.get_x(), this->y - vec.get_y(), this->z - vec.get_z());
 }
 
-
 /*
  * EQUALS operator
  *
