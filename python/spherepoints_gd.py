@@ -7,6 +7,11 @@ from math import cos, sin, atan2, acos, pi, sqrt
 from itertools import product, permutations
 from functools import partial
 
+"""
+Uses straight gradient descent method to find the 
+minimum of the total electrostatic energy of a point
+configuration on the sphere.
+"""
 
 DELTA = 0.001
 
@@ -61,6 +66,8 @@ def GradientAtP(p,x):
     p_theta = array( [ cos(theta) * cos(phi), sin(phi) * cos(theta), -sin(theta) ] )
     p_phi = array( [ -sin(theta) * sin(phi), cos(phi) * sin(theta), 0] )
     dist = acos( dot(p,x) ); # geodesic distance between points
+    #_energy = Energy(2*pi - dist, 3) - Energy(dist,3)
+    #_energy = Energy(2*pi - dist) - Energy(dist)
     _coef = Energy(dist) / sqrt(1-pow(dot(p,x),2))
     return _coef * (dot(x,p_theta)*p_theta + dot(x,p_phi)*p_phi) 
 
@@ -124,7 +131,7 @@ def Flow(points, M=10):
             new_points.append(q);
             points.insert(0,p)
         #total energy of the system
-        i, _energy = displayTotalEnergy(points,j)
+        i, _energydisplayTotalEnergy(points,j)
         print "length of points list is %d " % len(points)
         points = new_points; j+=1
     return array(points)
