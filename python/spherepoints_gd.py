@@ -125,11 +125,11 @@ def Flow(points, M=10):
     while j < M:
         new_points = [] #temp array holding the n+1 iteration of points, {p}
         # using a queue data structure, removing from the end/back and adding to the head/front
-        for i in range(N):
+        while i < N:
             p = points.pop() #remove from the end of the list
             q = NextStep(p, points);
             new_points.append(q);
-            points.insert(0,p)
+            points.insert(0,p); i+=1
         #total energy of the system
         i, _energydisplayTotalEnergy(points,j)
         print "length of points list is %d " % len(points)

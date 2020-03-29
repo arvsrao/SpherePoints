@@ -164,7 +164,6 @@ def DisplayNPoints(N=100, M=10):
     #coords = [ GenerateRandomS2Point() for x in range(N) ];
     coords = RejectionSample(N)
     points = Flow( coords, M )
-    #points = Flow([ ConvertToEuclidean(theta, phi) for theta, phi in coords ],M)    
     
     fig = plt.figure()
     ax1 = fig.add_subplot(111, projection='3d')

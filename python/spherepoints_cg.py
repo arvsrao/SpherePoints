@@ -66,8 +66,6 @@ def GradientAtP(p,x):
     p_theta = array( [ cos(theta) * cos(phi), sin(phi) * cos(theta), -sin(theta) ] )
     p_phi = array( [ -sin(theta) * sin(phi), cos(phi) * sin(theta), 0] )
     dist = acos( dot(p,x) ); # geodesic distance between points
-    #_energy = Energy(2*pi - dist, 3) - Energy(dist,3)
-    #_energy = Energy(2*pi - dist) - Energy(dist)
     _coef = Energy(dist) / sqrt(1-pow(dot(p,x),2))
     return _coef * (dot(x,p_theta)*p_theta + dot(x,p_phi)*p_phi) 
 
@@ -85,6 +83,7 @@ def ExponentialMap(p,v):
     
 
 def displayTotalEnergy(points,j):
+    points = [ x for x, y in points ]
     B = permutations(points, 2)
     _energy = sum([ Energy(acos(dot(x,y)), 1) for x,y in B ])
     print "total energy for iteration %d is %f" % (j, _energy)
@@ -92,8 +91,10 @@ def displayTotalEnergy(points,j):
 
 
 def distance(p,q):
-    return acos( dot(p,q) )
-
+    try:
+        return acos( dot(p,q) )
+    except:
+        print dot(p,q)
 
 def Flow(points, M=10):
     """
@@ -102,7 +103,7 @@ def Flow(points, M=10):
     """
     N = len(points); j=0
     #turn points list into a list of tuples (point, current derivative (d_k))
-    points = [(x, 0) for x in points ]
+    points = [(x, zeros(0)) for x in points ]
     
     def gen_grad(p):
         """
@@ -113,7 +114,7 @@ def Flow(points, M=10):
         return grad
     
     #update positions of each points
-    def NextStep(p, d=0, points, delta=DELTA):
+    def NextStep(p, d, points, delta=DELTA):
         """
         compute the flow of x ( which we think of as x_n)
         return x_{n+1}
@@ -121,25 +122,31 @@ def Flow(points, M=10):
         p is the reference point
         d is the derivative
         """
-        beta = 0.90
+        beta = 0.05
         _grad = gen_grad(p)
-        v = sum([ _grad(x) if distance(p,x) < pi/2 else 0 for x in points ])
-        v += beta * d
-        return (ExponentialMap(p, -delta * v), v)  
+        gradient = sum([ _grad(x) if dot(p,x) > 0 else 0 for x,y in points ])
+        try:
+            d *= beta
+            d -= gradient  # need to do parallel transport here!!
+        except:
+                print type(gradient), type(d)
+        return (ExponentialMap(p, delta * d ), d)  
     
     while j < M:
         new_points = [] #temp array holding the n+1 iteration of points, {p}
         # using a queue data structure, removing from the end/back and adding to the head/front
-        for i in range(N):
+        i=0
+        while i < N:
             p, d = points.pop() #remove from the end of the list
-            q = NextStep(p, d, points)
-            new_points.append(q)
+            q, v = NextStep(p, d, points)
+            new_points.append((q,v))
             points.insert(0,(p,d))
+            i+=1
         #total energy of the system
-        i, _energy = displayTotalEnergy(points,j)
-        print "length of points list is %d " % len(points)
+        displayTotalEnergy(points,j)
+#       print "length of points list is %d " % len(points)
         points = new_points; j+=1
-    return array([ x for x in points])
+    return array([ x for x,y in points])
 
     
 def RejectionSample(N):
